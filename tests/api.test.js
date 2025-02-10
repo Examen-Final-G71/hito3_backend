@@ -37,7 +37,7 @@ describe('Publicaciones', () => {
     const res = await request(app)
       .delete('/publicaciones/1')
       .set('Authorization', `Bearer ${token}`);
-    expect(res.statusCode).toBe(404);
+    expect(res.statusCode).toBe(403);
     expect(res.body).toHaveProperty('message', 'No tienes permiso para eliminar esta publicación');
   });
 });

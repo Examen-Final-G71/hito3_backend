@@ -1,4 +1,4 @@
-const { getPublicaciones, addPublicacion } = require('../models/publicacionModel');
+const { getPublicaciones, addPublicacion, deletePublicacion } = require('../models/publicacionModel');
 
 const obtenerPublicaciones = async (req, res) => {
   try {
@@ -20,4 +20,20 @@ const crearPublicacion = async (req, res) => {
   }
 };
 
-module.exports = { obtenerPublicaciones, crearPublicacion };
+const eliminarPublicacion = async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const resultado = await deletePublicacion(id, req.user.id);
+  
+      if (resultado.affectedRows === 0) {
+        return res.status(403).json({ message: 'No tienes permiso para eliminar esta publicación o no existe.' });
+      }
+  
+      res.json({ message: 'Publicación eliminada correctamente.' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al eliminar la publicación', error });
+    }
+  };
+  
+  module.exports = { obtenerPublicaciones, crearPublicacion, eliminarPublicacion };

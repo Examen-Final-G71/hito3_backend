@@ -12,5 +12,10 @@ const addPublicacion = async (titulo, precio, clasificacion, descripcion, usuari
   );
   return result.rows[0];
 };
+const deletePublicacion = async (id, userId) => {
+    const query = 'DELETE FROM publicaciones WHERE id = ? AND usuario_id = ?';
+    const [result] = await pool.execute(query, [id, userId]);
+    return result;
+  };
 
-module.exports = { getPublicaciones, addPublicacion };
+module.exports = { deletePublicacion, getPublicaciones, addPublicacion };
