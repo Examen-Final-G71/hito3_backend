@@ -1,34 +1,26 @@
-const pool = require('../config/db');
+const { crearTransaccion, obtenerTransaccionesPorUsuario } = require('../models/transaccionModel');
 
-const crearTransaccion = async (req, res) => {
-  try {
-    const { usuario_id, publicacion_id, monto_total } = req.body;
-    const fecha = new Date();
-    
-    const nuevaTransaccion = await pool.query(
-      'INSERT INTO Transacciones (usuario_id, publicacion_id, monto_total, fecha) VALUES ($1, $2, $3, $4) RETURNING *',
-      [usuario_id, publicacion_id, monto_total, fecha]
-    );
-    
-    res.status(201).json(nuevaTransaccion.rows[0]);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al registrar la transacción' });
-  }
+const realizarTransaccion = async (req, res) => {
+    const { numero_transaccion, monto_total, publicacion_id } = req.body;
+    const usuario_id = req.user.id; // Se obtiene del token de autenticación
+
+    try {
+        const transaccion = await crearTransaccion(numero_transaccion, monto_total, usuario_id, publicacion_id);
+        res.status(201).json(transaccion);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al procesar la transacción', error });
+    }
 };
 
 const obtenerTransacciones = async (req, res) => {
-  try {
-    const usuario_id = req.user.id; 
-    const transacciones = await pool.query(
-      'SELECT * FROM Transacciones WHERE usuario_id = $1',
-      [usuario_id]
-    );
-    res.json(transacciones.rows);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener las transacciones' });
-  }
+    const usuario_id = req.user.id; // Se obtiene del token de autenticación
+
+    try {
+        const transacciones = await obtenerTransaccionesPorUsuario(usuario_id);
+        res.json(transacciones);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener transacciones', error });
+    }
 };
 
-module.exports = { crearTransaccion, obtenerTransacciones };
+module.exports = { realizarTransaccion, obtenerTransacciones };
