@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
 
@@ -11,6 +12,17 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+
+
+app.get("/api/test", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json({ success: true, time: result.rows[0] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 
 app.use('/auth', authRoutes);
 app.use('/usuarios', usuarioRoutes);
