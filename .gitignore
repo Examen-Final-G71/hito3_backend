@@ -4,13 +4,5 @@ node_modules/
 package-lock.json
 db.js
 
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
 # Directorios de pruebas y caché
-coverage/
-jest/
-.vscode/
-.DS_Store
+test/
