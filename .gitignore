@@ -2,7 +2,6 @@
 node_modules/
 .env
 package-lock.json
-db.js
 
 # Directorios de pruebas y caché
 test/
