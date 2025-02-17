@@ -2,6 +2,3 @@
 node_modules/
 .env
 package-lock.json
-
-# Directorios de pruebas y caché
-test/

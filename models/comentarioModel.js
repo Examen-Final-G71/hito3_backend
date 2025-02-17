@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+const pool = require('../config');
 
 const getComentarios = async (publicacion_id) => {
   const result = await pool.query('SELECT * FROM "Comentarios" WHERE publicacion_id = $1', [publicacion_id]);

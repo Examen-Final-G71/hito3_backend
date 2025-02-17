@@ -1,4 +1,4 @@
-const pool = require('../config/db');
+const pool = require('../config');
 
 const crearTransaccion = async (numero_transaccion, monto_total, usuario_id, publicacion_id) => {
     const query = `
