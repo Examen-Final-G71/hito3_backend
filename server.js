@@ -10,17 +10,23 @@ const transaccionRoutes = require('./routes/transaccionRoutes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://hito2-frontend.onrender.com',
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+}));
 app.use(express.json());
 
-app.use('/auth', authRoutes);
+app.get("/", (req, res) => {
+  res.send("Servidor funcionando correctamente");
+});
+app.use('/api/auth', authRoutes);
 app.use('/usuarios', usuarioRoutes);
 app.use('/publicaciones', publicacionRoutes);
 app.use('/comentarios', comentarioRoutes);
 app.use('/transacciones', transaccionRoutes); 
 
 if (require.main === module) {
-  const PORT = 3000;
   app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
   });
