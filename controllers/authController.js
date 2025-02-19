@@ -1,10 +1,16 @@
 require('dotenv').config();
+const pool = require('../connection');  
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { createUser, getUserByEmail } = require('../models/usuarioModel');
 
 const register = async (req, res) => {
   const { nombre, correo, password } = req.body;
+
+  pool.query('SELECT NOW()', (err, res) => {
+    if (err) console.error('Error conectando a la base de datos:', err);
+    else console.log('Conexión exitosa:', res.rows);
+  });
 
   try {
     if (!nombre || !correo || !password) {
