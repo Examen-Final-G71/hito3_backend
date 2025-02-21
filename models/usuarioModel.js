@@ -1,4 +1,4 @@
-const pool = require('../config');
+const pool = require('./connection');
 
 const createUser = async (nombre, correo, hashedPassword) => {
   const result = await pool.query(

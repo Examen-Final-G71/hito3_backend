@@ -7,7 +7,8 @@ const pool = new Pool({
     rejectUnauthorized: false
   }
 });
+pool.query('SELECT NOW()')
+    .then(res => console.log(res.rows))
+    .catch(err => console.error('Error en la conexión a la base de datos', err));
 
-module.exports = {
-  query: (text, params) => pool.query(text, params)
-};
+module.exports = pool;
