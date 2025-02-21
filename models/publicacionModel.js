@@ -1,4 +1,4 @@
-const pool = require('./connection');
+const pool = require('../connection');
 
 const getPublicaciones = async () => {
   const result = await pool.query('SELECT * FROM "publicaciones"');
