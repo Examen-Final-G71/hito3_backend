@@ -10,13 +10,12 @@ const comentarioRoutes = require('./routes/comentarioRoutes');
 const transaccionRoutes = require('./routes/transaccionRoutes'); 
 
 const app = express();
-
 app.use(cors({
   origin: 'https://hito2-frontend.onrender.com',
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization'
 }));
-app.use(express.json());
+
 
 app.get("/", (req, res) => {
   res.send("Servidor funcionando correctamente");
