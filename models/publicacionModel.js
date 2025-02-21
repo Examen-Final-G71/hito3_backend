@@ -1,13 +1,13 @@
 const pool = require('../config');
 
 const getPublicaciones = async () => {
-  const result = await pool.query('SELECT * FROM "Publicaciones"');
+  const result = await pool.query('SELECT * FROM "publicaciones"');
   return result.rows;
 };
 
 const addPublicacion = async (titulo, precio, clasificacion, descripcion, usuario_id, stock, imagen) => {
   const result = await pool.query(
-    'INSERT INTO "Publicaciones" (titulo, precio, clasificacion, descripcion, usuario_id, stock, imagen) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+    'INSERT INTO "publicaciones" (titulo, precio, clasificacion, descripcion, usuario_id, stock, imagen) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
     [titulo, precio, clasificacion, descripcion, usuario_id, stock, imagen]
   );
   return result.rows[0];

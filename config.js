@@ -6,4 +6,4 @@ const envs = {
   DATABASE_URL: process.env.DATABASE_URL,
 };
 
-module.exports = {  PORT,  USER_DB,  HOST_DB,  DATABASE,  PASSWORD_DB } = envs;
+module.exports = envs;
