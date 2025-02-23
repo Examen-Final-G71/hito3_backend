@@ -32,9 +32,10 @@ app.get("/", (req, res) => {
   res.send("Servidor funcionando correctamente");
 });
 
+app.use('/uploads', express.static('uploads'));
 app.use('/api/auth', authRoutes);
 app.use('/usuarios', usuarioRoutes);
-app.use('/publicaciones', publicacionRoutes);
+app.use('/api/publicaciones', publicacionRoutes);
 app.use('/comentarios', comentarioRoutes);
 app.use('/transacciones', transaccionRoutes); 
 

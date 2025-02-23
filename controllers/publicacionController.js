@@ -35,5 +35,27 @@ const eliminarPublicacion = async (req, res) => {
       res.status(500).json({ message: 'Error al eliminar la publicación', error });
     }
   };
+
+  const editarPublicacion = async (req, res) => {
+    const { id } = req.params;         
+    const { titulo, contenido } = req.body; 
   
-  module.exports = { obtenerPublicaciones, crearPublicacion, eliminarPublicacion };
+    try {
+      const resultado = await updatePublicacion(id, titulo, contenido, req.user.id);
+  
+      if (resultado.affectedRows === 0) {
+        return res.status(403).json({ message: 'No tienes permiso para editar esta publicación o no existe.' });
+      }
+  
+      res.json({ message: 'Publicación editada correctamente.' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al editar la publicación', error });
+    }
+  };
+  
+  module.exports = {
+    obtenerPublicaciones,
+    crearPublicacion,
+    eliminarPublicacion, 
+    editarPublicacion
+   };

@@ -1,11 +1,13 @@
 const express = require('express');
-const { obtenerPublicaciones, crearPublicacion, eliminarPublicacion } = require('../controllers/publicacionController');
+const { obtenerPublicaciones, crearPublicacion, eliminarPublicacion, editarPublicacion } = require('../controllers/publicacionController');
 const authenticateToken = require('../middleware/authMiddleware');
+const upload = require('../middleware/upload');
 
 const router = express.Router();
 
 router.get('/', obtenerPublicaciones);
-router.post('/', authenticateToken, crearPublicacion);
+router.post('/', authenticateToken, upload.single('imagen'), crearPublicacion);
+router.put('/:id', authenticateToken, editarPublicacion);
 router.delete('/:id', authenticateToken, eliminarPublicacion); 
 
 module.exports = router;

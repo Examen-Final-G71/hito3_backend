@@ -18,4 +18,21 @@ const deletePublicacion = async (id, userId) => {
     return result;
   };
 
-module.exports = { deletePublicacion, getPublicaciones, addPublicacion };
+  const updatePublicacion = async (id, titulo, contenido, userId) => {
+    const query = `
+      UPDATE "Publicaciones" 
+      SET nombre = $1, descripcion = $2 
+      WHERE id = $3 AND "usuario_id" = $4
+      RETURNING *;
+    `;
+    const values = [titulo, contenido, id, userId];
+    const result = await pool.query(query, values);
+    return result;
+  };
+
+module.exports = {
+  deletePublicacion,
+  getPublicaciones,
+  addPublicacion,
+  updatePublicacion
+ };

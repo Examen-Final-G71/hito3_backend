@@ -51,3 +51,8 @@ CREATE TABLE "comentarios" (
     FOREIGN KEY ("publicacion_id") REFERENCES "publicaciones"("id")
         ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+
+   if (!user) {
+        return <p className="text-center mt-5">No has iniciado sesión. <Link to="/login" className="text-decoration-none"> Iniciar Sesión</Link></p>
+    };

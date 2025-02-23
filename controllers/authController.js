@@ -6,6 +6,7 @@ const { createUser, getUserByEmail } = require('../models/usuarioModel');
 
 const register = async (req, res) => {
   const { nombre, correo, password } = req.body;
+  console.log(req.body);
 
   pool.query('SELECT NOW()', (err, res) => {
     if (err) console.error('Error conectando a la base de datos:', err);
@@ -47,6 +48,7 @@ const register = async (req, res) => {
 
 
 const login = async (req, res) => {
+  console.log("Datos recibidos:", req.body);
   const { correo, password } = req.body;
 
   try {
