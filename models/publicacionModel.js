@@ -9,6 +9,7 @@ const addPublicacion = async (nombre, precio, clasificacion, descripcion, usuari
   // Convertir precio y stock a valores numéricos
   const precioNumber = parseFloat(precio);
   const stockNumber = parseInt(stock);
+  console.log(precioNumber, stockNumber)
 
   const result = await pool.query(
     'INSERT INTO "publicaciones" (nombre, precio, clasificacion, descripcion, usuario_id, stock, imagen, fecha_publicacion) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()) RETURNING *',
