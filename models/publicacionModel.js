@@ -5,10 +5,10 @@ const getPublicaciones = async () => {
   return result.rows;
 };
 
-const addPublicacion = async (titulo, precio, clasificacion, descripcion, usuario_id, stock, imagen) => {
+const addPublicacion = async (nombre, precio, clasificacion, descripcion, usuario_id, stock, imagen) => {
   const result = await pool.query(
-    'INSERT INTO "publicaciones" (titulo, precio, clasificacion, descripcion, usuario_id, stock, imagen) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-    [titulo, precio, clasificacion, descripcion, usuario_id, stock, imagen]
+    'INSERT INTO "publicaciones" (nombre, precio, clasificacion, descripcion, usuario_id, stock, imagen, fecha_publicacion) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()) RETURNING *',
+    [nombre, precio, clasificacion, descripcion, usuario_id, stock, imagen]
   );
   return result.rows[0];
 };
@@ -18,14 +18,14 @@ const deletePublicacion = async (id, userId) => {
     return result;
   };
 
-  const updatePublicacion = async (id, titulo, contenido, userId) => {
+  const updatePublicacion = async (id, nombre, descripcion, userId) => {
     const query = `
       UPDATE "Publicaciones" 
       SET nombre = $1, descripcion = $2 
       WHERE id = $3 AND "usuario_id" = $4
       RETURNING *;
     `;
-    const values = [titulo, contenido, id, userId];
+    const values = [nombre, descripcion, id, userId];
     const result = await pool.query(query, values);
     return result;
   };

@@ -10,10 +10,11 @@ const obtenerPublicaciones = async (req, res) => {
 };
 
 const crearPublicacion = async (req, res) => {
-  const { titulo, contenido } = req.body;
-
+  const { nombre, precio, clasificacion, descripcion, stock } = req.body;
+  const imagen = req.file ? req.file.filename : null;
+  
   try {
-    const publicacion = await addPublicacion(titulo, contenido, req.user.id);
+    const publicacion = await addPublicacion(nombre, precio, clasificacion, descripcion, req.user.id, stock, imagen);
     res.status(201).json(publicacion);
   } catch (error) {
     res.status(500).json({ message: 'Error al crear publicación', error });
@@ -38,10 +39,10 @@ const eliminarPublicacion = async (req, res) => {
 
   const editarPublicacion = async (req, res) => {
     const { id } = req.params;         
-    const { titulo, contenido } = req.body; 
+    const { nombre, descripcion } = req.body; 
   
     try {
-      const resultado = await updatePublicacion(id, titulo, contenido, req.user.id);
+      const resultado = await updatePublicacion(id, nombre, descripcion, req.user.id);
   
       if (resultado.affectedRows === 0) {
         return res.status(403).json({ message: 'No tienes permiso para editar esta publicación o no existe.' });
