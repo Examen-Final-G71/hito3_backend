@@ -6,14 +6,18 @@ const getPublicaciones = async () => {
 };
 
 const addPublicacion = async (nombre, precio, clasificacion, descripcion, usuario_id, stock, imagen) => {
+  // Convertir precio y stock a valores numéricos
+  const precioNumber = parseFloat(precio);
+  const stockNumber = parseInt(stock);
+
   const result = await pool.query(
     'INSERT INTO "publicaciones" (nombre, precio, clasificacion, descripcion, usuario_id, stock, imagen, fecha_publicacion) VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()) RETURNING *',
-    [nombre, precio, clasificacion, descripcion, usuario_id, stock, imagen]
+    [nombre, precioNumber, clasificacion, descripcion, usuario_id, stockNumber, imagen]
   );
   return result.rows[0];
 };
 const deletePublicacion = async (id, userId) => {
-    const query = 'DELETE FROM publicaciones WHERE id = ? AND usuario_id = ?';
+  const query = 'DELETE FROM "publicaciones" WHERE id = $1 AND usuario_id = $2';
     const [result] = await pool.execute(query, [id, userId]);
     return result;
   };
