@@ -17,7 +17,7 @@ const crearPublicacion = async (req, res) => {
     const publicacion = await addPublicacion(nombre, precio, clasificacion, descripcion, req.user.id, stock, imagen);
     res.status(201).json(publicacion);
   } catch (error) {
-    console.error("Error al crear publicación:", error);
+    console.error("Error en crearPublicacion", error);
     res.status(500).json({ message: 'Error al crear publicación', error });
   }
 };
