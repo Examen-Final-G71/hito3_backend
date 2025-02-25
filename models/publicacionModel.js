@@ -1,7 +1,11 @@
 const pool = require('../connection');
 
 const getPublicaciones = async () => {
-  const result = await pool.query('SELECT * FROM "publicaciones"');
+  const result = await pool.query(`
+    SELECT p.*, u.nombre AS usuario_nombre
+    FROM "publicaciones" p
+    JOIN "usuarios" u ON p.usuario_id = u.id
+  `);
   return result.rows;
 };
 
