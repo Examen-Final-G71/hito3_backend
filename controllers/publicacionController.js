@@ -1,4 +1,5 @@
 const { getPublicaciones, addPublicacion, deletePublicacion } = require('../models/publicacionModel');
+const cloudinary = require("../config/cloudinaryConfig");
 
 const obtenerPublicaciones = async (req, res) => {
   try {
@@ -10,17 +11,42 @@ const obtenerPublicaciones = async (req, res) => {
 };
 
 const crearPublicacion = async (req, res) => {
-  const { nombre, precio, clasificacion, descripcion, stock } = req.body;
-  const imagen = req.file ? req.file.filename : null;
-  
   try {
-    const publicacion = await addPublicacion(nombre, precio, clasificacion, descripcion, req.user.id, stock, imagen);
+    const { nombre, precio, clasificacion, descripcion, stock } = req.body;
+    const id_user = req.user.id;
+
+    let imagenUrl = null;
+    if (!req.file) {
+      return res.status(400).json({ message: "Debe proporcionar una imagen" });
+    }
+    if (req.file) {
+      // Convertimos el buffer en base64 para subirlo a Cloudinary
+      const fileBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+
+      // Subimos la imagen a Cloudinary
+      const result = await cloudinary.uploader.upload(fileBase64, {
+        folder: "publicaciones",
+      });
+      imagenUrl = result.secure_url; // URL segura de la imagen
+    }
+
+    const publicacion = await addPublicacion({
+      nombre,
+      precio,
+      clasificacion,
+      descripcion,
+      stock,
+      imagen: imagenUrl,
+      id_user,
+    });
+
     res.status(201).json(publicacion);
   } catch (error) {
-    console.error("Error en crearPublicacion", error);
-    res.status(500).json({ message: 'Error al crear publicación', error });
+    console.error("Error al crear la publicación:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
+
 
 const eliminarPublicacion = async (req, res) => {
     const { id } = req.params;

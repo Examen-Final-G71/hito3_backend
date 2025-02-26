@@ -1,7 +1,7 @@
 const express = require('express');
 const { obtenerPublicaciones, crearPublicacion, eliminarPublicacion, editarPublicacion } = require('../controllers/publicacionController');
 const authenticateToken = require('../middleware/authMiddleware');
-const upload = require('../middleware/uploads');
+const upload = require('../middleware/uploadMiddleware');
 
 const router = express.Router();
 
