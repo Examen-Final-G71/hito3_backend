@@ -10,19 +10,15 @@ const obtenerPublicaciones = async (req, res) => {
 };
 
 const crearPublicacion = async (req, res) => {
+  const { nombre, precio, clasificacion, descripcion, stock } = req.body;
+  const imagen = req.file ? req.file.filename : null;
+  
   try {
-    console.log("Archivo subido:", req.file); // Verificar la imagen subida
-    const { nombre, precio, clasificacion, descripcion, usuario_id, stock } = req.body;
-    const imagen = req.file?.path; // Obtener la URL de la imagen desde Cloudinary
-
-    if (!imagen) {
-      return res.status(400).json({ error: "No se subió ninguna imagen" });
-    }
-
-    const nuevaPublicacion = await addPublicacion(nombre, precio, clasificacion, descripcion, usuario_id, stock, imagen);
-    res.status(201).json(nuevaPublicacion);
+    const publicacion = await addPublicacion(nombre, precio, clasificacion, descripcion, req.user.id, stock, imagen);
+    res.status(201).json(publicacion);
   } catch (error) {
-    res.status(500).json({ error: "Error al crear la publicación" });
+    console.error("Error en crearPublicacion", error);
+    res.status(500).json({ message: 'Error al crear publicación', error });
   }
 };
 
