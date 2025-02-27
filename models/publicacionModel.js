@@ -22,22 +22,22 @@ const addPublicacion = async (nombre, precio, clasificacion, descripcion, usuari
   return result.rows[0];
 };
 const deletePublicacion = async (id, userId) => {
-  const query = 'DELETE FROM "publicaciones" WHERE id = $1 AND usuario_id = $2';
-    const [result] = await pool.execute(query, [id, userId]);
-    return result;
-  };
+  const query = 'DELETE FROM "publicaciones" WHERE id = $1 AND usuario_id = $2 RETURNING *';
+  const result = await pool.query(query, [id, userId]);
+  return result.rowCount; // Devuelve el número de filas afectadas
+};
 
-  const updatePublicacion = async (id, nombre, descripcion, userId) => {
-    const query = `
-      UPDATE "Publicaciones" 
-      SET nombre = $1, descripcion = $2 
-      WHERE id = $3 AND "usuario_id" = $4
-      RETURNING *;
-    `;
-    const values = [nombre, descripcion, id, userId];
-    const result = await pool.query(query, values);
-    return result;
-  };
+const updatePublicacion = async (id, nombre, descripcion, userId) => {
+  const query = `
+    UPDATE "publicaciones" 
+    SET nombre = $1, descripcion = $2 
+    WHERE id = $3 AND usuario_id = $4
+    RETURNING *;
+  `;
+  const values = [nombre, descripcion, id, userId];
+  const result = await pool.query(query, values);
+  return result.rowCount; // Devuelve la cantidad de filas afectadas
+};
 
 module.exports = {
   deletePublicacion,
