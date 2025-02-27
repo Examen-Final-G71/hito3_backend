@@ -23,10 +23,15 @@ const PORT = process.env.PORT || 3000;
 app.use(
   cors({
     origin: 'https://hito2-frontend.onrender.com',
-    methods: 'GET,POST,PUT,DELETE',
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type,Authorization'
 }));
-app.options("*", cors());
+app.options("*", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://hito2-frontend.onrender.com");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  res.sendStatus(200);
+});
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
