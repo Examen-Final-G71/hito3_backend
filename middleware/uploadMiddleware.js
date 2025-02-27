@@ -1,17 +1,17 @@
 const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../config/cloudinaryConfig");
 
-// Configurar multer para almacenar archivos en memoria
-const storage = multer.memoryStorage();
+// Configuración de almacenamiento en Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "publicaciones", // Carpeta donde se guardarán las imágenes en Cloudinary
+    allowed_formats: ["jpg", "png", "jpeg"],
+  },
+});
 
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = ["image/jpeg", "image/png"];
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error("Solo se permiten archivos JPEG y PNG"), false);
-  }
-};
 
-const upload = multer({ storage, fileFilter });
+const upload = multer({ storage });
 
 module.exports = upload;

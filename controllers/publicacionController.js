@@ -13,39 +13,35 @@ const obtenerPublicaciones = async (req, res) => {
 const crearPublicacion = async (req, res) => {
   try {
     const { nombre, precio, clasificacion, descripcion, stock } = req.body;
-    const id_user = req.user.id;
+    const id_user = req.user ? req.user.id : null; // Verificamos que req.user existe
+    const imagenUrl = req.file ? req.file.path : null; // La URL viene directo de multer-storage-cloudinary
 
-    let imagenUrl = null;
-    if (!req.file) {
+    if (!imagenUrl) {
       return res.status(400).json({ message: "Debe proporcionar una imagen" });
     }
-    if (req.file) {
-      // Convertimos el buffer en base64 para subirlo a Cloudinary
-      const fileBase64 = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
 
-      // Subimos la imagen a Cloudinary
-      const result = await cloudinary.uploader.upload(fileBase64, {
-        folder: "publicaciones",
-      });
-      imagenUrl = result.secure_url; // URL segura de la imagen
-    }
-
-    const publicacion = await addPublicacion({
+    const nuevaPublicacion = {
       nombre,
       precio,
       clasificacion,
       descripcion,
       stock,
-      imagen: imagenUrl,
       id_user,
-    });
+      imagen: imagenUrl, // Guardamos la URL de Cloudinary
+    };
 
-    res.status(201).json(publicacion);
+    console.log("Publicación creada:", nuevaPublicacion);
+
+    res.status(201).json({
+      message: "Publicación creada exitosamente",
+      publicacion: nuevaPublicacion,
+    });
   } catch (error) {
     console.error("Error al crear la publicación:", error);
     res.status(500).json({ message: "Error interno del servidor" });
   }
 };
+
 
 
 const eliminarPublicacion = async (req, res) => {
