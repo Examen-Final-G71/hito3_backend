@@ -14,9 +14,11 @@ const addComentario = async (calificacion, comentario, usuario_id, publicacion_i
 };
 
 const deleteComentario = async (id, userId) => {
-    const query = 'DELETE FROM comentarios WHERE id = ? AND usuario_id = ?';
-    const [result] = await pool.execute(query, [id, userId]);
-    return result;
-  };
+  const result = await pool.query(
+    'DELETE FROM comentarios WHERE id = $1 AND usuario_id = $2 RETURNING *',
+    [id, userId]
+  );
+  return result.rows[0];
+};
 
 module.exports = { deleteComentario , getComentarios, addComentario };

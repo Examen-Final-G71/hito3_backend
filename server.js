@@ -45,7 +45,7 @@ app.use('/upload', express.static('upload'));
 app.use('/api/auth', authRoutes);
 app.use('/usuarios', usuarioRoutes);
 app.use('/api/publicaciones', publicacionRoutes);
-app.use('/comentarios', comentarioRoutes);
+app.use('/api/comentarios', comentarioRoutes);
 app.use('/transacciones', transaccionRoutes); 
 
 if (require.main === module) {
