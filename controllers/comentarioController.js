@@ -1,4 +1,4 @@
-const { getComentarios, addComentario, deleteComentario } = require('../models/comentariosModel');
+const { getComentarios, addComentario, deleteComentario } = require('../models/comentarioModel');
 
 const obtenerComentarios = async (req, res) => {
   try {
