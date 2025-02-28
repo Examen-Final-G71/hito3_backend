@@ -1,20 +1,13 @@
 const { getComentarios, addComentario, deleteComentario } = require('../models/comentarioModel');
 
 const obtenerComentarios = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params;  // Asegurar que el id de la publicación se recibe correctamente
   try {
-    const result = await pool.query(`
-      SELECT c.id, c.calificacion, c.comment, c.fecha, u.nombre AS usuario_nombre
-      FROM comentarios c
-      JOIN usuarios u ON c.usuario_id = u.id
-      WHERE c.publicacion_id = $1
-      ORDER BY c.fecha DESC
-    `, [id]);
-
-    res.json(result.rows);
+      const comentarios = await getComentarios(id); 
+      res.json(comentarios);
   } catch (error) {
-    console.error("Error al obtener comentarios:", error);
-    res.status(500).json({ error: "Error en el servidor" });
+      console.error("Error al obtener comentarios:", error);
+      res.status(500).json({ error: "Error en el servidor" });
   }
 };
 
