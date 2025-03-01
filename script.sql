@@ -42,12 +42,12 @@ CREATE TABLE "transacciones" (
 CREATE TABLE "comentarios" (
     "id" SERIAL PRIMARY KEY,
     "calificacion" SMALLINT NOT NULL CHECK ("calificacion" BETWEEN 1 AND 5),
-    "comment" VARCHAR(255),
-    "fecha" TIMESTAMP NOT NULL DEFAULT NOW(),
-    "usuario_id" INTEGER NOT NULL,
+    "comment" TEXT,
+    "fecha" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "usuario_id" INTEGER,
     "publicacion_id" INTEGER NOT NULL,
     FOREIGN KEY ("usuario_id") REFERENCES "usuarios"("id")
-        ON UPDATE CASCADE ON DELETE CASCADE,
+        ON UPDATE CASCADE ON DELETE SET NULL,
     FOREIGN KEY ("publicacion_id") REFERENCES "publicaciones"("id")
         ON UPDATE CASCADE ON DELETE CASCADE
 );

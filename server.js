@@ -2,6 +2,11 @@ require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
 const pool = require('./connection');
+const authRoutes = require('./routes/authRoutes');
+const usuarioRoutes = require('./routes/usuarioRoutes');
+const publicacionRoutes = require('./routes/publicacionRoutes');
+const comentarioRoutes = require('./routes/comentarioRoutes');
+const transaccionRoutes = require('./routes/transaccionRoutes'); 
 
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
@@ -11,11 +16,6 @@ pool.query('SELECT NOW()', (err, res) => {
   }
 });
 
-const authRoutes = require('./routes/authRoutes');
-const usuarioRoutes = require('./routes/usuarioRoutes');
-const publicacionRoutes = require('./routes/publicacionRoutes');
-const comentarioRoutes = require('./routes/comentarioRoutes');
-const transaccionRoutes = require('./routes/transaccionRoutes'); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
