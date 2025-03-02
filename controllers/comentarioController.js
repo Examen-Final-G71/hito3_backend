@@ -12,9 +12,9 @@ const obtenerComentarios = async (req, res) => {
 };
 
 const crearComentario = async (req, res) => {
-  const { calificacion, comment } = req.body; // ⚠️ Cambio: `comentario` → `comment`
+  const { calificacion, comment } = req.body;
   const { publicacion_id } = req.params;
-  const usuario_id = req.user?.id || null; // ⚠️ Cambio: Si el usuario no está autenticado, es `NULL`
+  const usuario_id = req.user?.id || null;
 
   if (!calificacion || !comment) {
       return res.status(400).json({ error: "Todos los campos son obligatorios" });
@@ -31,7 +31,7 @@ const crearComentario = async (req, res) => {
 
 const eliminarComentario = async (req, res) => {
   const { id } = req.params;
-  const usuario_id = req.user?.id || null; // ⚠️ Cambio: Si no hay usuario autenticado, es `NULL`
+  const usuario_id = req.user?.id || null; 
 
   try {
       const comentarioEliminado = await deleteComentario(id, usuario_id);
