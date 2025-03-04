@@ -32,7 +32,7 @@ CREATE TABLE "transacciones" (
     "fecha" TIMESTAMP NOT NULL DEFAULT NOW(),
     "usuario_id" INTEGER NOT NULL,
     FOREIGN KEY ("usuario_id") REFERENCES "usuarios"("id")
-        ON UPDATE CASCADE ON DELETE CASCADE,
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabla de Comentarios
