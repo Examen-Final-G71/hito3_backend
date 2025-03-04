@@ -1,4 +1,4 @@
-import { getComprasByUsuario } from "../models/transaccionModel.js";
+const { getComprasByUsuario } = require('../models/transaccionModel.js');
 
 export const getComprasUsuario = async (req, res) => {
   try {
