@@ -11,6 +11,7 @@ const obtenerPublicaciones = async (req, res) => {
 };
 
 const obtenerPublicacionesPorUsario = async (req, res) => {
+  const usuario_id = req.params.id;
   try {
     const publicaciones = await getPublicacionesByUserId(usuario_id);
     res.json(publicaciones);
