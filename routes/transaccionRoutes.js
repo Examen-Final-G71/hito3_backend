@@ -7,4 +7,4 @@ const router = express.Router();
 // Ruta para obtener las compras de un usuario
 router.get("/compras", authenticateToken, getComprasUsuario);
 
-export default router;
+module.exports = router;
