@@ -1,6 +1,6 @@
 const pool = require('../connection');
 
-export const getComprasByUsuario = async (usuario_id) => {
+const getComprasByUsuario = async (usuario_id) => {
   try {
     const query = `
       SELECT 
@@ -13,7 +13,7 @@ export const getComprasByUsuario = async (usuario_id) => {
       FROM detalle_transacciones dt
       JOIN transacciones t ON dt.transaccion_id = t.id
       JOIN publicaciones p ON dt.publicacion_id = p.id
-      WHERE t.usuario_id = $1 AND t.tipo_transaccion = true  -- Filtra solo las compras
+      WHERE t.usuario_id = $1 AND t.tipo_transaccion = true  
       ORDER BY t.fecha DESC;
     `;
     const result = await pool.query(query, [usuario_id]);
@@ -22,3 +22,5 @@ export const getComprasByUsuario = async (usuario_id) => {
     throw new Error("Error al obtener compras del usuario: " + error.message);
   }
 };
+
+module.exports = { getComprasByUsuario };
