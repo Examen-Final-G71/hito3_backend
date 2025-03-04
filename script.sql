@@ -49,7 +49,16 @@ CREATE TABLE "comentarios" (
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+-- Tabla de Detalle de Transacciones
+CREATE TABLE "detalle_transacciones" (
+    "id" SERIAL PRIMARY KEY,
+    "transaccion_id" INTEGER NOT NULL,
+    "publicacion_id" INTEGER NOT NULL,
+    "cantidad" INTEGER NOT NULL CHECK ("cantidad" > 0),
+    "subtotal" NUMERIC(10, 2) NOT NULL CHECK ("subtotal" >= 0),
 
-   if (!user) {
-        return <p className="text-center mt-5">No has iniciado sesión. <Link to="/login" className="text-decoration-none"> Iniciar Sesión</Link></p>
-    };
+    FOREIGN KEY ("transaccion_id") REFERENCES "transacciones"("id")
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY ("publicacion_id") REFERENCES "publicaciones"("id")
+        ON UPDATE CASCADE ON DELETE CASCADE
+);

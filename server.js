@@ -16,7 +16,6 @@ pool.query('SELECT NOW()', (err, res) => {
   }
 });
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
