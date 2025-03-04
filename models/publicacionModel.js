@@ -19,7 +19,6 @@ const getPublicacionesByUserId = async (usuario_id) => {
   return result.rows;
 };
 
-
 const addPublicacion = async (nombre, precio, clasificacion, descripcion, usuario_id, stock, imagen) => {
   // Convertir precio y stock a valores numéricos
   const precioNumber = parseFloat(precio);
