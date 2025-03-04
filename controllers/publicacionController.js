@@ -12,7 +12,7 @@ const obtenerPublicaciones = async (req, res) => {
 
 const obtenerPublicacionesPorUsario = async (req, res) => {
   try {
-    const publicaciones = await getPublicacionesByUserId(publicacion_id);
+    const publicaciones = await getPublicacionesByUserId(usuario_id);
     res.json(publicaciones);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener publicaciones', error });
