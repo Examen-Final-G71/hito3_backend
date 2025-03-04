@@ -1,6 +1,6 @@
-import express from "express";
-import { getComprasUsuario } from "../controllers/transaccionController.js";
-import authenticateToken from "../middleware/authMiddleware.js";
+const express = require('express');
+const { getComprasUsuario } = require('../controllers/transaccionController');
+const authenticateToken = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
