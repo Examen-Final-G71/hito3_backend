@@ -13,5 +13,3 @@ const getUsuario = async (req, res) => {
 };
 
 module.exports = { getUsuario };
-
-

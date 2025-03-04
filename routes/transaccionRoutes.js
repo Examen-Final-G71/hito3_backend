@@ -1,11 +1,10 @@
-const express = require('express');
-const { realizarTransaccion, obtenerTransacciones } = require('../controllers/transaccionController');
-const authenticateToken = require('../middleware/authMiddleware');
+import express from "express";
+import { getComprasUsuario } from "../controllers/transaccionController.js";
+import authenticateToken from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post('/', authenticateToken, realizarTransaccion);
-router.get('/', authenticateToken, obtenerTransacciones);
+// Ruta para obtener las compras de un usuario
+router.get("/compras", authenticateToken, getComprasUsuario);
 
-
-module.exports = router;
+export default router;

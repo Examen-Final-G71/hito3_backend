@@ -1,21 +1,24 @@
-const pool = require('../connection');
+import db from "../database/db.js";
 
-const crearTransaccion = async (numero_transaccion, monto_total, usuario_id, publicacion_id) => {
+export const getComprasByUsuario = async (usuario_id) => {
+  try {
     const query = `
-        INSERT INTO "transacciones" (numero_transaccion, monto_total, fecha, usuario_id, publicacion_id)
-        VALUES ($1, $2, NOW(), $3, $4) RETURNING *;
+      SELECT 
+        dt.id, 
+        p.nombre AS publicacion, 
+        p.precio, 
+        dt.cantidad, 
+        dt.subtotal, 
+        t.fecha 
+      FROM detalle_transacciones dt
+      JOIN transacciones t ON dt.transaccion_id = t.id
+      JOIN publicaciones p ON dt.publicacion_id = p.id
+      WHERE t.usuario_id = $1 AND t.tipo_transaccion = true  -- Filtra solo las compras
+      ORDER BY t.fecha DESC;
     `;
-    const values = [numero_transaccion, monto_total, usuario_id, publicacion_id];
-    const { rows } = await pool.query(query, values);
-    return rows[0];
+    const result = await db.query(query, [usuario_id]);
+    return result.rows;
+  } catch (error) {
+    throw new Error("Error al obtener compras del usuario: " + error.message);
+  }
 };
-
-const obtenerTransaccionesPorUsuario = async (usuario_id) => {
-    const query = `
-        SELECT * FROM "transacciones" WHERE usuario_id = $1;
-    `;
-    const { rows } = await pool.query(query, [usuario_id]);
-    return rows;
-};
-
-module.exports = { crearTransaccion, obtenerTransaccionesPorUsuario };

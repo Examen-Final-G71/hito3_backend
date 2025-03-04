@@ -27,15 +27,12 @@ CREATE TABLE "publicaciones" (
 -- Tabla de Transacciones
 CREATE TABLE "transacciones" (
     "id" SERIAL PRIMARY KEY,
-    "numero_transaccion" SERIAL NOT NULL UNIQUE,
+    "tipo_transaccion" BOOLEAN NOT NULL,
     "monto_total" NUMERIC(10, 2) NOT NULL,
     "fecha" TIMESTAMP NOT NULL DEFAULT NOW(),
-    "publicacion_id" INTEGER NOT NULL,
     "usuario_id" INTEGER NOT NULL,
     FOREIGN KEY ("usuario_id") REFERENCES "usuarios"("id")
         ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY ("publicacion_id") REFERENCES "publicaciones"("id")
-        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- Tabla de Comentarios
