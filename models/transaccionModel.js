@@ -1,4 +1,4 @@
-import db from "../database/db.js";
+const pool = require('../connection');
 
 export const getComprasByUsuario = async (usuario_id) => {
   try {
@@ -16,7 +16,7 @@ export const getComprasByUsuario = async (usuario_id) => {
       WHERE t.usuario_id = $1 AND t.tipo_transaccion = true  -- Filtra solo las compras
       ORDER BY t.fecha DESC;
     `;
-    const result = await db.query(query, [usuario_id]);
+    const result = await pool.query(query, [usuario_id]);
     return result.rows;
   } catch (error) {
     throw new Error("Error al obtener compras del usuario: " + error.message);
