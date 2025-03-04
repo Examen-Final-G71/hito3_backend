@@ -9,6 +9,17 @@ const getPublicaciones = async () => {
   return result.rows;
 };
 
+const getPublicacionesByUserId = async (usuario_id) => {
+  const result = await pool.query(`
+    SELECT p.*, u.nombre AS usuario_nombre
+    FROM "publicaciones" p
+    JOIN "usuarios" u ON p.usuario_id = u.id
+    WHERE p.usuario_id = $1 
+  `, [usuario_id]);
+  return result.rows;
+};
+
+
 const addPublicacion = async (nombre, precio, clasificacion, descripcion, usuario_id, stock, imagen) => {
   // Convertir precio y stock a valores numéricos
   const precioNumber = parseFloat(precio);
@@ -43,5 +54,6 @@ module.exports = {
   deletePublicacion,
   getPublicaciones,
   addPublicacion,
-  updatePublicacion
+  updatePublicacion,
+  getPublicacionesByUserId
  };

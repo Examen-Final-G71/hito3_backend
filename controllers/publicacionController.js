@@ -1,9 +1,18 @@
-const { getPublicaciones, addPublicacion, deletePublicacion } = require('../models/publicacionModel');
+const { getPublicaciones, addPublicacion, deletePublicacion, getPublicacionesByUserId } = require('../models/publicacionModel');
 
 
 const obtenerPublicaciones = async (req, res) => {
   try {
     const publicaciones = await getPublicaciones();
+    res.json(publicaciones);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener publicaciones', error });
+  }
+};
+
+const obtenerPublicacionesPorUsario = async (req, res) => {
+  try {
+    const publicaciones = await getPublicacionesByUserId(publicacion_id);
     res.json(publicaciones);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener publicaciones', error });
@@ -73,5 +82,6 @@ const editarPublicacion = async (req, res) => {
     obtenerPublicaciones,
     crearPublicacion,
     eliminarPublicacion, 
-    editarPublicacion
+    editarPublicacion,
+    obtenerPublicacionesPorUsario
    };
