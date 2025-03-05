@@ -1,4 +1,5 @@
 require("dotenv").config();
+const path = require("path");
 const express = require('express');
 const cors = require('cors');
 const pool = require('./connection');
@@ -46,6 +47,15 @@ app.use('/usuarios', usuarioRoutes);
 app.use('/api/publicaciones', publicacionRoutes);
 app.use('/api/comentarios', comentarioRoutes);
 app.use('/transacciones', transaccionRoutes); 
+
+
+// Sirve los archivos estáticos del frontend
+app.use(express.static(path.join(__dirname, "build"))); 
+
+// Captura todas las rutas y devuelve index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 if (require.main === module) {
   app.listen(PORT, () => {
