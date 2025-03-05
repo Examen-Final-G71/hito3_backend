@@ -23,4 +23,38 @@ const getComprasByUsuario = async (usuario_id) => {
   }
 };
 
-module.exports = { getComprasByUsuario };
+const createTransaccion = async (usuario_id, monto_total, detalle) => {
+  const client = await pool.connect();
+  
+  try {
+    await client.query("BEGIN"); 
+
+
+    const transaccionQuery = `
+      INSERT INTO transacciones (usuario_id, tipo_transaccion, monto_total, fecha)
+      VALUES ($1, true, $2, NOW()) RETURNING id;
+    `;
+    const transaccionResult = await client.query(transaccionQuery, [usuario_id, monto_total]);
+    const transaccion_id = transaccionResult.rows[0].id;
+
+
+    const detalleQuery = `
+      INSERT INTO detalle_transacciones (transaccion_id, publicacion_id, cantidad, subtotal)
+      VALUES ($1, $2, $3, $4);
+    `;
+
+    for (const item of detalle) {
+      await client.query(detalleQuery, [transaccion_id, item.publicacion_id, item.cantidad, item.subtotal]);
+    }
+
+    await client.query("COMMIT"); 
+    return { success: true, transaccion_id };
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw new Error("Error al registrar la compra: " + error.message);
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = { getComprasByUsuario, createTransaccion  };
