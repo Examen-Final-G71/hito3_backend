@@ -50,11 +50,11 @@ app.use('/transacciones', transaccionRoutes);
 
 
 // Sirve los archivos estáticos del frontend
-app.use(express.static(path.join(__dirname, "build"))); 
+app.use(express.static(path.join(__dirname, "dist"))); 
 
 // Captura todas las rutas y devuelve index.html
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 if (require.main === module) {
