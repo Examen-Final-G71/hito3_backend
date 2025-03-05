@@ -13,8 +13,6 @@ const getComprasUsuario = async (req, res) => {
   }
 };
 
-const { createTransaccion } = require("../models/transaccionesModel");
-
 const registrarCompra = async (req, res) => {
   try {
     const { usuario_id, monto_total, detalle } = req.body;
