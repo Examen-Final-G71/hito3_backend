@@ -4,7 +4,8 @@ const getComprasByUsuario = async (usuario_id) => {
   try {
     const query = `
       SELECT 
-        dt.id, 
+        dt.id,
+        t.id AS transaccion_id,
         p.nombre AS publicacion, 
         p.precio, 
         dt.cantidad, 

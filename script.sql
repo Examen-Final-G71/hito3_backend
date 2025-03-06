@@ -57,7 +57,7 @@ CREATE TABLE "detalle_transacciones" (
     "cantidad" INTEGER NOT NULL CHECK ("cantidad" > 0),
     "subtotal" NUMERIC(10, 2) NOT NULL CHECK ("subtotal" >= 0),
 
-    FOREIGN KEY ("transaccion_id") REFERENCES "transacciones"("id")
+    FOREIGN KEY ("transaccion_id") REFERENCES "t    ransacciones"("id")
         ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY ("publicacion_id") REFERENCES "publicaciones"("id")
         ON UPDATE CASCADE ON DELETE CASCADE
